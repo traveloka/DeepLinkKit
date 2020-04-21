@@ -15,7 +15,7 @@ DEPENDENCIES:
   - Specta
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://cdn.cocoapods.org/:
     - Expecta
     - KIF
     - OCMock
@@ -34,4 +34,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: c390f027c860b497aa35e691b8e585f706ac36a5
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.9.1
