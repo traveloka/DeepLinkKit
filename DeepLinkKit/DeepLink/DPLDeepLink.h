@@ -44,7 +44,15 @@
  */
 @property (nonatomic, strong, readonly) NSURL *callbackURL;
 
+/**
+ Boolean property that indicates whether the URL is a universal link.
+ */
+@property (nonatomic, assign, readonly) BOOL isUniversalLink;
 
+/**
+ Boolean property that indicates whether the URL is a deep link.
+ */
+@property (nonatomic, assign, readonly) BOOL isDeepLink;
 
 ///--------------------------------------------------
 /// @name Parameter Retrieval via Object Subscripting

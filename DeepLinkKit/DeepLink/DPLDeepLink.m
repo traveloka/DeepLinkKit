@@ -23,6 +23,11 @@ NSString * const DPLJSONEncodedFieldNamesKey = @"dpl:json-encoded-fields";
         
         _URL             = url;
         _queryParameters = [[_URL query] DPL_parametersFromQueryString];
+
+        // check if the property is universal link.
+        if ([_URL.scheme isEqualToString:@"http"] || [_URL.scheme isEqualToString:@"https"]) {
+            _isUniversalLink = YES;
+        }
         
         NSMutableDictionary *mutableQueryParams = [_queryParameters mutableCopy];
         NSArray *JSONEncodedFields = [mutableQueryParams[DPLJSONEncodedFieldNamesKey] DPL_decodedJSONObject];
@@ -120,5 +125,14 @@ NSString * const DPLJSONEncodedFieldNamesKey = @"dpl:json-encoded-fields";
     return copiedLink;
 }
 
+#pragma mark - Getter Overrides
+
+- (BOOL)isDeepLink {
+    if (!_URL) {
+        return NO;
+    }
+
+    return !self.isUniversalLink;
+}
 
 @end

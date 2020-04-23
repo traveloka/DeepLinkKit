@@ -3,7 +3,6 @@
 #import "DPLMutableDeepLink.h"
 #import "NSString+DPLQuery.h"
 
-
 SpecBegin(DPLDeepLink)
 
 
@@ -132,6 +131,46 @@ describe(@"Equality", ^{
         DPLDeepLink *link2 = [[DPLDeepLink alloc] init];
         
         expect(link1).to.equal(link2);
+    });
+});
+
+describe(@"Link Type Detection", ^{
+    context(@"when passed URL is deeplink", ^{
+        NSURL *url = [NSURL URLWithString:@"dpl://ride/oneway"];
+        DPLDeepLink *link = [[DPLDeepLink alloc] initWithURL:url];
+
+        it(@"contains true in isDeepLink property", ^{
+            expect(link.isDeepLink).to.beTruthy();
+        });
+
+        it(@"contains false in isUniversalLink property", ^{
+            expect(link.isUniversalLink).to.beFalsy();
+        });
+    });
+
+    context(@"when passed URL is universal link", ^{
+        NSURL *url = [NSURL URLWithString:@"https://dpl.io/ride/oneway"];
+        DPLDeepLink *link = [[DPLDeepLink alloc] initWithURL:url];
+
+        it(@"contains false in isDeepLink property", ^{
+            expect(link.isDeepLink).to.beFalsy();
+        });
+
+        it(@"contains true in isUniversalLink property", ^{
+            expect(link.isUniversalLink).to.beTruthy();
+        });
+    });
+
+    context(@"when no URL is passed", ^{
+        DPLDeepLink *link = [[DPLDeepLink alloc] init];
+
+        it(@"contains false in isDeepLink property", ^{
+            expect(link.isDeepLink).to.beFalsy();
+        });
+
+        it(@"contains false in isUniversalLink property", ^{
+            expect(link.isUniversalLink).to.beFalsy();
+        });
     });
 });
 
