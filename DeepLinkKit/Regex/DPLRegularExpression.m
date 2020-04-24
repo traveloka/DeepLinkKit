@@ -41,7 +41,7 @@ static NSString * const DPLURLParameterPattern        = @"([^/]+)";
         // Begin at 1 as first range is the whole match
         for (NSInteger i = 1; i < result.numberOfRanges && i <= self.groupNames.count; i++) {
             NSString *parameterName         = self.groupNames[i - 1];
-            NSString *parameterValue        = [str substringWithRange:[result rangeAtIndex:i]];
+            NSString *parameterValue        = [[str substringWithRange:[result rangeAtIndex:i]] stringByRemovingPercentEncoding];
             routeParameters[parameterName]  = parameterValue;
         }
     }

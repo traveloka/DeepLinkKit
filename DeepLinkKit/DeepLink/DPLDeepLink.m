@@ -28,7 +28,7 @@ NSString * const DPLJSONEncodedFieldNamesKey = @"dpl:json-encoded-fields";
         if ([_URL.scheme isEqualToString:@"http"] || [_URL.scheme isEqualToString:@"https"]) {
             _isUniversalLink = YES;
         }
-        
+
         NSMutableDictionary *mutableQueryParams = [_queryParameters mutableCopy];
         NSArray *JSONEncodedFields = [mutableQueryParams[DPLJSONEncodedFieldNamesKey] DPL_decodedJSONObject];
         

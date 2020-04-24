@@ -193,6 +193,21 @@ describe(@"Matching Routes", ^{
         expect([deepLink.queryParameters count]).to.equal(2);
         expect(deepLink.routeParameters[@"host"]).to.equal(@"myrandomhost");
     });
+
+    context(@"given encoded values in route parameters", ^{
+        // https:// dpl.io/param/foo / bar
+        NSURL *url = [NSURL URLWithString:@"https://dpl.io/param/foo%20%2F%20bar"];
+        DPLRouteMatcher *matcher = [DPLRouteMatcher matcherWithRoute:@"https://dpl.io/param/:value"];
+        DPLDeepLink *deepLink = [matcher deepLinkWithURL:url];
+
+        it(@"returns a deep link", ^{
+            expect(deepLink).toNot.beNil();
+        });
+
+        it(@"stores decoded value in route parameters", ^{
+            expect(deepLink.routeParameters[@"value"]).to.equal(@"foo / bar");
+        });
+    });
 });
 
 
