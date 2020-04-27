@@ -230,6 +230,79 @@ describe(@"Handling Routes", ^{
         BOOL isHandled = [router handleUserActivity:activity withCompletion:NULL];
         expect(isHandled).to.beFalsy();
     });
+
+    context(@"with active normalization option", ^{
+
+        context(@"given deep link as input", ^{
+
+            __block NSURL *url = [NSURL URLWithString:@"dpl://param/foo"];
+            __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
+            router.useNormalizedPaths = YES;
+
+            it(@"handles normalized route", ^{
+                waitUntil(^(DoneCallback done) {
+                    router[@"/param/:value"] = ^(DPLDeepLink *deepLink) {
+                        expect(deepLink.routeParameters[@"value"]).to.equal(@"foo");
+                    };
+
+                    BOOL isHandled = [router handleURL:url withCompletion:^(BOOL handled, NSError *error) {
+                        expect(handled).to.beTruthy();
+                        expect(error).to.beNil();
+                        done();
+                    }];
+                    expect(isHandled).to.beTruthy();
+                });
+            });
+
+        });
+
+        context(@"given universal link as input", ^{
+
+            __block NSURL *url = [NSURL URLWithString:@"https://dpl.io/en/param/foo"];
+
+            it(@"matches route that does not specify hosts", ^{
+
+                __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
+                router.useNormalizedPaths = YES;
+
+                waitUntil(^(DoneCallback done) {
+                    router[@"^/en/param/:value"] = ^(DPLDeepLink *deepLink) {
+                        expect(deepLink.routeParameters[@"value"]).to.equal(@"foo");
+                    };
+
+                    BOOL isHandled = [router handleURL:url withCompletion:^(BOOL handled, NSError *error) {
+                        expect(handled).to.beTruthy();
+                        expect(error).to.beNil();
+                        done();
+                    }];
+                    expect(isHandled).to.beTruthy();
+                });
+
+            });
+
+            it(@"matches route without specifying paths in additional host pattern", ^{
+
+                __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
+                router.useNormalizedPaths = YES;
+                router.additionalHostPatternString = @"en";
+
+                waitUntil(^(DoneCallback done) {
+                    router[@"^/param/:value"] = ^(DPLDeepLink *deepLink) {
+                        expect(deepLink.routeParameters[@"value"]).to.equal(@"foo");
+                    };
+
+                    BOOL isHandled = [router handleURL:url withCompletion:^(BOOL handled, NSError *error) {
+                        expect(handled).to.beTruthy();
+                        expect(error).to.beNil();
+                        done();
+                    }];
+                    expect(isHandled).to.beTruthy();
+                });
+            });
+
+        });
+    });
+
 });
 
 SpecEnd

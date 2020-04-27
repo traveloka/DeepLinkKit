@@ -24,6 +24,7 @@ Pod::Spec.new do |s|
     "DeepLinkKit/**/DPLMatchResult.h",
     "DeepLinkKit/**/DPLRouteMatcher.h",
     "DeepLinkKit/**/DPLRegularExpression.h",
+    "DeepLinkKit/**/DPLRouteNormalizer.h",
     "DeepLinkKit/**/NSString+DPLTrim.h",
     "DeepLinkKit/**/NSString+DPLQuery.h",
     "DeepLinkKit/**/NSString+DPLJSON.h",

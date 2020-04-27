@@ -106,6 +106,9 @@
 		DEE40E5F1A42B0530097EA33 /* DPLActionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE40E5D1A42ABE80097EA33 /* DPLActionDataSource.m */; };
 		DEE40E601A42B0580097EA33 /* DPLDemoAction.m in Sources */ = {isa = PBXBuildFile; fileRef = DEE40E581A42A3F50097EA33 /* DPLDemoAction.m */; };
 		DEEBD4A91AAB7946000BCA84 /* DPLSerializableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DEEBD4A81AAB7946000BCA84 /* DPLSerializableObject.m */; };
+		FE1A10762459741500A65849 /* DPLRouteNormalizerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = FE1A10752459741500A65849 /* DPLRouteNormalizerSpec.m */; };
+		FEE7EEE6245739A500A79FBB /* DPLRouteNormalizer.h in Headers */ = {isa = PBXBuildFile; fileRef = FEE7EEE4245739A500A79FBB /* DPLRouteNormalizer.h */; };
+		FEE7EEE7245739A500A79FBB /* DPLRouteNormalizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE7EEE5245739A500A79FBB /* DPLRouteNormalizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +245,9 @@
 		E9CA1DB95577CF3689F4B77F /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ./README.md; sourceTree = "<group>"; };
 		EDDAC2D515BBC241CD51EDB8 /* Pods-ReceiverDemoSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReceiverDemoSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReceiverDemoSwift/Pods-ReceiverDemoSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		F2FD6B000C4700E22BB03B32 /* Pods_ReceiverDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReceiverDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE1A10752459741500A65849 /* DPLRouteNormalizerSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPLRouteNormalizerSpec.m; sourceTree = "<group>"; };
+		FEE7EEE4245739A500A79FBB /* DPLRouteNormalizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DPLRouteNormalizer.h; sourceTree = "<group>"; };
+		FEE7EEE5245739A500A79FBB /* DPLRouteNormalizer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DPLRouteNormalizer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -581,6 +587,7 @@
 				DE16E91F1A42882F00077E18 /* Router */,
 				DEAC406F1A5DA7B8004A9095 /* RouteHandler */,
 				DE16E9331A4289D500077E18 /* RouteMatcher */,
+				FEE7EEE1245736C400A79FBB /* RouteNormalizer */,
 				DE058E0B1A3B484A00147C04 /* DeepLink */,
 			);
 			path = DeepLinkKit;
@@ -658,6 +665,7 @@
 				4D4F41291B02A95800B710DB /* Regex */,
 				DE16E9221A42883B00077E18 /* Router */,
 				DE16E9361A4289DF00077E18 /* RouteMatcher */,
+				FEE7EEE824573F8500A79FBB /* RouteNormalizer */,
 				DE058E0E1A3B485500147C04 /* DeepLink */,
 				DE3E610C1A3B4492008D6DFC /* Categories */,
 				DEC1B07F1A365213002BB838 /* SupportingFiles */,
@@ -738,6 +746,23 @@
 			name = Fixtures;
 			sourceTree = "<group>";
 		};
+		FEE7EEE1245736C400A79FBB /* RouteNormalizer */ = {
+			isa = PBXGroup;
+			children = (
+				FEE7EEE4245739A500A79FBB /* DPLRouteNormalizer.h */,
+				FEE7EEE5245739A500A79FBB /* DPLRouteNormalizer.m */,
+			);
+			path = RouteNormalizer;
+			sourceTree = "<group>";
+		};
+		FEE7EEE824573F8500A79FBB /* RouteNormalizer */ = {
+			isa = PBXGroup;
+			children = (
+				FE1A10752459741500A65849 /* DPLRouteNormalizerSpec.m */,
+			);
+			path = RouteNormalizer;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -762,6 +787,7 @@
 				BFDB97071F3C0048001AE303 /* DPLErrors.h in Headers */,
 				BFDB97051F3C0048001AE303 /* DeepLinkKit.h in Headers */,
 				BFDB97081F3C0048001AE303 /* DPLDeepLinkRouter.h in Headers */,
+				FEE7EEE6245739A500A79FBB /* DPLRouteNormalizer.h in Headers */,
 				BFDB97091F3C0048001AE303 /* DPLRouteHandler.h in Headers */,
 				BFDB97061F3C0048001AE303 /* DPLTargetViewControllerProtocol.h in Headers */,
 				BFDB970B1F3C0048001AE303 /* DPLMutableDeepLink.h in Headers */,
@@ -916,6 +942,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1162,6 +1189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DE16E9281A42883B00077E18 /* DPLDeepLinkRouterSpec.m in Sources */,
+				FE1A10762459741500A65849 /* DPLRouteNormalizerSpec.m in Sources */,
 				DE16E9381A4289DF00077E18 /* DPLRouteMatcherSpec.m in Sources */,
 				4D4F412B1B02A96400B710DB /* DPLRegularExpressionSpec.m in Sources */,
 				DECB32531A881CA10071C76E /* NSObject_DPLJSONObjectSpec.m in Sources */,
@@ -1226,6 +1254,7 @@
 				BFDB97001F3C0011001AE303 /* DPLRouteMatcher.m in Sources */,
 				BFDB96FE1F3C0011001AE303 /* DPLDeepLinkRouter.m in Sources */,
 				BFDB96FD1F3C0011001AE303 /* DPLRegularExpression.m in Sources */,
+				FEE7EEE7245739A500A79FBB /* DPLRouteNormalizer.m in Sources */,
 				BFDB96FC1F3C0011001AE303 /* DPLMatchResult.m in Sources */,
 				BFDB97041F3C0011001AE303 /* DPLMutableDeepLink.m in Sources */,
 				BFDB96F81F3C0011001AE303 /* NSString+DPLQuery.m in Sources */,

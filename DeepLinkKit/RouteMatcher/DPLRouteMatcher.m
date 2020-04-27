@@ -2,6 +2,7 @@
 #import "DPLDeepLink_Private.h"
 #import "NSString+DPLTrim.h"
 #import "DPLRegularExpression.h"
+#import "DPLRouteNormalizer.h"
 
 @interface DPLRouteMatcher ()
 
@@ -33,12 +34,14 @@
     return self;
 }
 
-
 - (DPLDeepLink *)deepLinkWithURL:(NSURL *)url {
+    return [self deepLinkWithURL:url normalizer:nil];
+}
 
+- (DPLDeepLink *)deepLinkWithURL:(NSURL *)url normalizer:(DPLRouteNormalizer *)normalizer {
     DPLDeepLink *deepLink = [[DPLDeepLink alloc] initWithURL:url];
 
-    if (deepLink.URL.absoluteString.length < 2) {
+    if (self.scheme.length && ![self.scheme isEqualToString:deepLink.URL.scheme]) {
         return nil;
     }
 
@@ -50,17 +53,17 @@
     // ignore query parameters.
     deepLinkString = [[deepLinkString componentsSeparatedByString:@"?"] firstObject];
 
-    if (self.scheme.length && ![self.scheme isEqualToString:deepLink.URL.scheme]) {
-        return nil;
+    if (normalizer) {
+        deepLinkString = [normalizer normalizeRoute:deepLinkString forDeepLink:deepLink];
     }
 
     DPLMatchResult *matchResult = [self.regexMatcher matchResultForString:deepLinkString];
     if (!matchResult.isMatch) {
         return nil;
     }
-    
+
     deepLink.routeParameters = matchResult.namedProperties;
-    
+
     return deepLink;
 }
 

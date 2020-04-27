@@ -3,6 +3,7 @@
 #import "DPLMatchResult.h"
 #import "DPLRouteMatcher.h"
 #import "DPLRegularExpression.h"
+#import "DPLRouteNormalizer.h"
 #import "NSString+DPLTrim.h"
 #import "NSString+DPLQuery.h"
 #import "NSString+DPLJSON.h"

@@ -32,6 +32,29 @@ typedef void(^DPLRouteCompletionBlock)(BOOL handled, NSError *error);
 
 @interface DPLDeepLinkRouter : NSObject
 
+///-----------------
+/// @name Properties
+///-----------------
+
+/**
+Determines whether to perform normalization on URLs. The default value is NO.
+
+ @see `DPLRouteNormalizer`
+*/
+@property (nonatomic, assign) BOOL useNormalizedPaths;
+
+/**
+ The string regex pattern to further trim universal link routes.
+
+ @discussion Universal links might have additional paths appended by default before its actual path
+ (e.g. https://dpl.io/site/foo ), while its deep link counterpart is simply dpl://foo. This option
+ provide options to trim the `/site/` part, thus normalizing the matched paths between universal
+ link and its deep link counterpart.
+ @note Additional trimming only applies if `excludeHostFromUniversalLinks` is set to YES.
+
+ @see excludeHostFromUniversalLinks
+ */
+@property (nonatomic, strong) NSString *additionalHostPatternString;
 
 ///-------------------------
 /// @name Route Registration

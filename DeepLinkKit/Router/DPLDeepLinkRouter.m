@@ -3,6 +3,7 @@
 #import "DPLDeepLink.h"
 #import "DPLRouteHandler.h"
 #import "DPLErrors.h"
+#import "DPLRouteNormalizer.h"
 #import <objc/runtime.h>
 
 @interface DPLDeepLinkRouter ()
@@ -119,12 +120,19 @@
         return NO;
     }
 
+    // prepare route normalizer
+    DPLRouteNormalizer *normalizer;
+    if (self.useNormalizedPaths) {
+        normalizer = [[DPLRouteNormalizer alloc] initWithExtraHostPattern:(self.additionalHostPatternString ?: @"")];
+    }
+
     NSError      *error;
     DPLDeepLink  *deepLink;
     __block BOOL isHandled = NO;
+
     for (NSString *route in self.routes) {
         DPLRouteMatcher *matcher = [DPLRouteMatcher matcherWithRoute:route];
-        deepLink = [matcher deepLinkWithURL:url];
+        deepLink = [matcher deepLinkWithURL:url normalizer:normalizer];
         if (deepLink) {
             isHandled = [self handleRoute:route withDeepLink:deepLink error:&error];
             if (isHandled) {
