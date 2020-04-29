@@ -258,10 +258,11 @@ describe(@"Handling Routes", ^{
 
         context(@"given universal link as input", ^{
 
-            __block NSURL *url = [NSURL URLWithString:@"https://dpl.io/en/param/foo"];
+
 
             it(@"matches route that does not specify hosts", ^{
 
+                __block NSURL *url = [NSURL URLWithString:@"https://dpl.io/en/param/foo"];
                 __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
                 router.useNormalizedPaths = YES;
 
@@ -282,9 +283,10 @@ describe(@"Handling Routes", ^{
 
             it(@"matches route without specifying paths in additional host pattern", ^{
 
+                __block NSURL *url = [NSURL URLWithString:@"https://dpl.io/en-us/param/foo"];
                 __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
                 router.useNormalizedPaths = YES;
-                router.additionalHostPatternString = @"en";
+                router.additionalHostPatternString = @"([a-zA-Z]+-[a-zA-Z]+|en)";
 
                 waitUntil(^(DoneCallback done) {
                     router[@"^/param/:value"] = ^(DPLDeepLink *deepLink) {
@@ -303,6 +305,41 @@ describe(@"Handling Routes", ^{
         });
     });
 
+    context(@"with active start anchor option", ^{
+
+        it(@"handles URL that matches pattern from start of string", ^{
+
+            __block NSURL *url = [NSURL URLWithString:@"dpl://param/foo"];
+            __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
+            router.useStartAnchors = YES;
+
+            waitUntil(^(DoneCallback done) {
+                router[@"param/:value"] = ^(DPLDeepLink *deepLink) {
+                    expect(deepLink.routeParameters[@"value"]).to.equal(@"foo");
+                };
+
+                BOOL isHandled = [router handleURL:url withCompletion:^(BOOL handled, NSError *error) {
+                    expect(handled).to.beTruthy();
+                    expect(error).to.beNil();
+                    done();
+                }];
+                expect(isHandled).to.beTruthy();
+            });
+        });
+
+        it(@"does NOT handle URL that matches pattern NOT from start of string", ^{
+
+            __block NSURL *url = [NSURL URLWithString:@"dpl://foo/param/bar"];
+            __block DPLDeepLinkRouter *router = [[DPLDeepLinkRouter alloc] init];
+            router.useStartAnchors = YES;
+
+            router[@"param/:value"] = ^{};
+
+            BOOL isHandled = [router handleURL:url withCompletion:nil];
+            expect(isHandled).to.beFalsy();
+        });
+
+    });
 });
 
 SpecEnd

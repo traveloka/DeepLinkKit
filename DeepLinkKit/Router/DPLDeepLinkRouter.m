@@ -92,6 +92,15 @@
     if (!([route isKindOfClass:[NSString class]] && route.length)) {
         return;
     }
+
+    if (self.useStartAnchors) {
+        // check if the route already contains start anchor.
+        NSString *firstLetter = [route substringToIndex:1];
+        if (![firstLetter isEqualToString:@"^"]) {
+            // append start anchor to the route.
+            route = [@"^" stringByAppendingString:route];
+        }
+    }
     
     if (!obj) {
         [self.routes removeObject:route];

@@ -37,7 +37,21 @@ typedef void(^DPLRouteCompletionBlock)(BOOL handled, NSError *error);
 ///-----------------
 
 /**
-Determines whether to perform normalization on URLs. The default value is NO.
+ Always perform route matching from start-of-string. The default value is NO.
+
+ @discussion In regex term, always assume that there is a start anchor (`^`)
+ on every registered pattern. Given route pattern `site`, and URL paths:
+ @code
+ dpl://site/1 // URL 1
+ dpl://foo/visit-site // URL 2
+ @endcode
+ The route pattern will only match URL 1, since the pattern matching always
+ operates with the assumption that the pattern is actually `^site`.
+ */
+@property (nonatomic, assign) BOOL useStartAnchors;
+
+/**
+ Determines whether to perform normalization on URLs. The default value is NO.
 
  @see `DPLRouteNormalizer`
 */
