@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage         = "https://www.usebutton.com/developers/deep-link-kit/"
   s.license          = 'MIT'
   s.author           = 'Button, Inc.'
-  s.source           = { :git => "https://github.com/button/DeepLinkKit.git", :tag => s.version.to_s }
+  s.source           = { :git => "git@github.com:traveloka/DeepLinkKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/buttondev'
 
   s.ios.deployment_target     = "7.0"
