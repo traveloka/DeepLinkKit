@@ -1,4 +1,5 @@
 #import "DPLRouteMatcher.h"
+#import "DPLRouteNormalizer.h"
 #import "DPLDeepLink.h"
 
 NSURL *URLWithPath(NSString *path) {
@@ -207,6 +208,33 @@ describe(@"Matching Routes", ^{
         it(@"stores decoded value in route parameters", ^{
             expect(deepLink.routeParameters[@"value"]).to.equal(@"foo / bar");
         });
+    });
+
+    context(@"given trailing slash in the input URL", ^{
+        // scheme://foo/value1/value2/value3/value4/?utm_source=newsletter
+        // /foo/:action(param1)/:param2/:param3/:param4
+        NSURL *url = [NSURL URLWithString:@"scheme://foo/param/value2/value3/value4/?utm_source=newsletter"];
+        NSString *route = @"/?foo/:action(param)/:param2/:param3/:param4";
+
+        context(@"without normalizer", ^{
+            it(@"returns a deep link", ^{
+                DPLRouteMatcher *matcher = [DPLRouteMatcher matcherWithRoute:route];
+                DPLDeepLink *deepLink = [matcher deepLinkWithURL:url];
+
+                expect(deepLink).toNot.beNil();
+            });
+        });
+
+        context(@"with normalizer", ^{
+            it(@"returns a deep link", ^{
+                DPLRouteNormalizer *normalizer = [[DPLRouteNormalizer alloc] init];
+                DPLRouteMatcher *matcher = [DPLRouteMatcher matcherWithRoute:route];
+                DPLDeepLink *deepLink = [matcher deepLinkWithURL:url normalizer:normalizer];
+
+                expect(deepLink).toNot.beNil();
+            });
+        });
+
     });
 });
 

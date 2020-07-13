@@ -53,6 +53,12 @@
     // ignore query parameters.
     deepLinkString = [[deepLinkString componentsSeparatedByString:@"?"] firstObject];
 
+    // sanitize trailing slash if any.
+    NSArray *components = [deepLinkString componentsSeparatedByString:@"/"];
+    NSPredicate *nonEmptyStringsPredicate = [NSPredicate predicateWithFormat:@"length > 0"];
+    NSArray *filtered = [components filteredArrayUsingPredicate:nonEmptyStringsPredicate];
+    deepLinkString = [filtered componentsJoinedByString:@"/"];
+
     if (normalizer) {
         deepLinkString = [normalizer normalizeRoute:deepLinkString forDeepLink:deepLink];
     }
