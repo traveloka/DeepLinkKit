@@ -23,7 +23,7 @@
 
 - (NSString *)normalizeRoute:(NSString *)routeString forDeepLink:(DPLDeepLink *)deepLink {
     if (routeString.length == 0) {
-        return routeString;
+        return @"/";
     }
 
     NSString *currentRoute = routeString;
@@ -31,6 +31,10 @@
     // process universal link host if needed.
     if (deepLink.isUniversalLink) {
         currentRoute = [self excludeHostFromRoute:routeString];
+    }
+
+    if (currentRoute.length == 0) {
+        return @"/";
     }
 
     // check if the current route already contains forward slash.

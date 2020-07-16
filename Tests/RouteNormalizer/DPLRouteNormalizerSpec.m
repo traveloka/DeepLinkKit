@@ -34,6 +34,32 @@ describe(@"Deep Link Normalization", ^{
 
     });
 
+    context(@"given empty route", ^{
+
+        it(@"should handle empty universal link", ^{
+            NSURL *emptyURL = [NSURL URLWithString:@"https://dpl.io/"];
+            DPLDeepLink *emptyDeeplink = [[DPLDeepLink alloc] initWithURL:emptyURL];
+            NSString *routeString = @"dpl.io";
+
+            DPLRouteNormalizer *normalizer = [[DPLRouteNormalizer alloc] init];
+            NSString *result = [normalizer normalizeRoute:routeString forDeepLink:emptyDeeplink];
+
+            expect(result).to.equal(@"/");
+        });
+
+        it(@"should handle empty deep link", ^{
+            NSURL *emptyURL = [NSURL URLWithString:@"scheme://"];
+            DPLDeepLink *emptyDeeplink = [[DPLDeepLink alloc] initWithURL:emptyURL];
+            NSString *routeString = @"";
+
+            DPLRouteNormalizer *normalizer = [[DPLRouteNormalizer alloc] init];
+            NSString *result = [normalizer normalizeRoute:routeString forDeepLink:emptyDeeplink];
+
+            expect(result).to.equal(@"/");
+        });
+
+    });
+
 });
 
 describe(@"Universal Link Normalization", ^{

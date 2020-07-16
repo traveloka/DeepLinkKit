@@ -50,17 +50,19 @@
     // need to be skipped.
     NSString *deepLinkString = [deepLink.URL.resourceSpecifier substringFromIndex:2];
 
-    // ignore query parameters.
-    deepLinkString = [[deepLinkString componentsSeparatedByString:@"?"] firstObject];
+    if (deepLinkString) {
+        // ignore query parameters.
+        deepLinkString = [[deepLinkString componentsSeparatedByString:@"?"] firstObject];
 
-    // sanitize trailing slash if any.
-    NSArray *components = [deepLinkString componentsSeparatedByString:@"/"];
-    NSPredicate *nonEmptyStringsPredicate = [NSPredicate predicateWithFormat:@"length > 0"];
-    NSArray *filtered = [components filteredArrayUsingPredicate:nonEmptyStringsPredicate];
-    deepLinkString = [filtered componentsJoinedByString:@"/"];
+        // sanitize trailing slash if any.
+        NSArray *components = [deepLinkString componentsSeparatedByString:@"/"];
+        NSPredicate *nonEmptyStringsPredicate = [NSPredicate predicateWithFormat:@"length > 0"];
+        NSArray *filtered = [components filteredArrayUsingPredicate:nonEmptyStringsPredicate];
+        deepLinkString = [filtered componentsJoinedByString:@"/"];
+    }
 
     if (normalizer) {
-        deepLinkString = [normalizer normalizeRoute:deepLinkString forDeepLink:deepLink];
+        deepLinkString = [normalizer normalizeRoute:(deepLinkString ?: @"") forDeepLink:deepLink];
     }
 
     DPLMatchResult *matchResult = [self.regexMatcher matchResultForString:deepLinkString];
